@@ -1,12 +1,12 @@
 QLabel#TitleLabel1 {
-    color: black;
+    color: white;
     font-size: 20px;
     font-weight: bold;
     padding: 8px;
 }
 
 QLabel#TitleLabel2 {
-    color: black;
+    color: white;
     font-size: 16px;
     padding: 5px;
 }
