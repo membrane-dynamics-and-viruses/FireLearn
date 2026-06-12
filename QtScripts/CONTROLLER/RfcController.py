@@ -159,6 +159,14 @@ class RfcController:
         combotable = self.view.widgets["learn_combotable"]
         targets = combotable.get_current_values()['target']
         targets = list(set(targets))
+
+        if self.view.widgets["learn_kfold_ckbox"].isChecked():
+            kfold_val = self.view.widgets["learn_kfold_edit"].text().strip()
+            if not kfold_val or not kfold_val.isdigit() or int(kfold_val) < 2:
+                QMessageBox.critical(self.view, "Error",
+                                     "K-Fold is enabled but the K value is missing or invalid. "
+                                     "Please enter an integer ≥ 2.")
+                return False
         
         if len(targets) < 1:
             QMessageBox.critical(self.view, "Missing value", "Targets are needed to train a Random Forest Classifier.")
@@ -467,6 +475,14 @@ class RfcController:
     
     def handle_finished(self, worker_name,):
         self.handle_progress(1)
+
+        if not self.results:
+            QMessageBox.critical(self.view, "Error",
+                                 "Learning produced no results. Check the error log for details.")
+            self.threads_alive = False
+            self.cancelled = False
+            return
+
         for _ in range(1):
             if self.cancelled:
                 break
