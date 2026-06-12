@@ -121,25 +121,27 @@ class DatasetProcessingController:
             if self.view.widgets["filter_type_cbbox"].currentText() in ["Bandpass", "Bandstop"] and not self.view.widgets["filter_second_cut_edit"].text():
                 errors.append("For filters of type bandpass and bandstop, you need to indicate the second frequency cut.")
                 signal_errors = True
-                
-            
+
         if self.view.widgets["filter_first_cut_edit"].text() and self.view.widgets["filter_second_cut_edit"].text():
-            if int(self.view.widgets["filter_first_cut_edit"].text()) > int(self.view.widgets["filter_second_cut_edit"].text()):
+            if float(self.view.widgets["filter_first_cut_edit"].text()) > float(
+                    self.view.widgets["filter_second_cut_edit"].text()):
                 errors.append("The first cut must be smaller than the second cut frequency.")
                 signal_errors = True
-            
+
         if self.view.widgets["fft_ckbox"].checkState() == Qt.CheckState.Checked \
-            and not self.view.widgets["fft_edit"].text():
+                and not self.view.widgets["fft_edit"].text():
             errors.append("You have to indicate a sampling frequency to use FFT.")
             signal_errors = True
-            
+
         if self.view.widgets["fft_ckbox"].checkState() == Qt.CheckState.Checked:
             if self.view.widgets["filter_type_cbbox"].currentText() in ["Bandpass", "Bandstop"]:
-                if int(self.view.widgets["filter_second_cut_edit"].text()) >=  int(self.view.widgets["filter_sampling_frequency_edit"].text())/2:
+                if float(self.view.widgets["filter_second_cut_edit"].text()) >= float(
+                        self.view.widgets["filter_sampling_frequency_edit"].text()) / 2:
                     errors.append("Digital filter second cut frequency must be < 1/2 * sampling frequency.")
                     signal_errors = True
             if self.view.widgets["filter_type_cbbox"].currentText() in ["Lowpass", "Highpass"]:
-                if int(self.view.widgets["filter_first_cut_edit"].text()) >=  int(self.view.widgets["filter_sampling_frequency_edit"].text())/2:
+                if float(self.view.widgets["filter_first_cut_edit"].text()) >= float(
+                        self.view.widgets["filter_sampling_frequency_edit"].text()) / 2:
                     errors.append("Digital filter first cut frequency must be < 1/2 * sampling frequency.")
                     signal_errors = True
                     
@@ -159,11 +161,15 @@ class DatasetProcessingController:
         
         # ------- FORBIDDEN CHARACTERS
         forbidden_characters = "/\\#."
+        frequency_fields = ["filter_first_cut_edit", "filter_second_cut_edit",
+                            "filter_sampling_frequency_edit", "harmonics_frequency_edit", "fft_edit"]
+
         for name, widget in self.view.widgets.items():
             if "_edit" in name:
                 if widget.isEnabled():
-                    if any(f in widget.text() for f in forbidden_characters):
-                        errors.append(f"%s contains forbidden characters ({forbidden_characters})" % name)
+                    chars_to_check = "/\\#" if name in frequency_fields else forbidden_characters
+                    if any(f in widget.text() for f in chars_to_check):
+                        errors.append(f"%s contains forbidden characters ({chars_to_check})" % name)
                         filesorter_errors = True
                         signal_errors = True
                         filename_errors = True

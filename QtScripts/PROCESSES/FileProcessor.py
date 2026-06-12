@@ -284,50 +284,42 @@ class FileProcess(QThread):
         second cutoff frequencies) are dynamically selected based on the model's settings.
 
         """
+        
         for ch in [col for col in df_s.columns if self.model_vars["exception_column_edit"] not in col]:
             df_s_ch = df_s[ch]
-            if self.model_vars['filter_type_cbbox'] == 'Highpass' and self.model_vars[
-                'filter_first_cut_edit']:
+            if self.model_vars['filter_type_cbbox'] == 'Highpass' and self.model_vars['filter_first_cut_edit']:
                 df_s_ch = dpr.butter_filter(df_s_ch, order=int(self.model_vars['filter_order_edit']),
                                             btype='highpass',
-                                            cut=int(self.model_vars['filter_first_cut_edit']),
-                                            fs=self.model_vars["filter_sampling_frequency_edit"])
-            elif self.model_vars['filter_type_cbbox'] == 'Lowpass' and self.model_vars[
-                'filter_first_cut_edit']:
+                                            cut=float(self.model_vars['filter_first_cut_edit']),
+                                            fs=float(self.model_vars["filter_sampling_frequency_edit"]))
+            elif self.model_vars['filter_type_cbbox'] == 'Lowpass' and self.model_vars['filter_first_cut_edit']:
                 df_s_ch = dpr.butter_filter(df_s_ch, order=int(self.model_vars['filter_order_edit']),
                                             btype='lowpass',
-                                            cut=int(self.model_vars['filter_first_cut_edit']),
-                                            fs=self.model_vars["filter_sampling_frequency_edit"])
-            elif self.model_vars['filter_type_cbbox'] == 'Bandstop' and self.model_vars[
-                'filter_first_cut_edit'] and \
+                                            cut=float(self.model_vars['filter_first_cut_edit']),
+                                            fs=float(self.model_vars["filter_sampling_frequency_edit"]))
+            elif self.model_vars['filter_type_cbbox'] == 'Bandstop' and self.model_vars['filter_first_cut_edit'] and \
                     self.model_vars['filter_second_cut_edit']:
                 df_s_ch = dpr.butter_filter(df_s_ch, order=int(self.model_vars['filter_order_edit']),
                                             btype='bandstop',
-                                            lowcut=int(
-                                                self.model_vars['filter_first_cut_edit']),
-                                            highcut=int(
-                                                self.model_vars['filter_second_cut_edit']),
-                                            fs=self.model_vars["filter_sampling_frequency_edit"])
-            elif self.model_vars['filter_type_cbbox'] == 'Bandpass' and self.model_vars[
-                'filter_first_cut_edit'] and \
+                                            lowcut=float(self.model_vars['filter_first_cut_edit']),
+                                            highcut=float(self.model_vars['filter_second_cut_edit']),
+                                            fs=float(self.model_vars["filter_sampling_frequency_edit"]))
+            elif self.model_vars['filter_type_cbbox'] == 'Bandpass' and self.model_vars['filter_first_cut_edit'] and \
                     self.model_vars['filter_second_cut_edit']:
                 df_s_ch = dpr.butter_filter(df_s_ch, order=int(self.model_vars['filter_order_edit']),
                                             btype='bandpass',
-                                            lowcut=int(
-                                                self.model_vars['filter_first_cut_edit']),
-                                            highcut=int(
-                                                self.model_vars['filter_second_cut_edit']),
-                                            fs=self.model_vars["filter_sampling_frequency_edit"])
+                                            lowcut=float(self.model_vars['filter_first_cut_edit']),
+                                            highcut=float(self.model_vars['filter_second_cut_edit']),
+                                            fs=float(self.model_vars["filter_sampling_frequency_edit"]))
             if self.model_vars['harmonics_ckbox']:
                 for h in harmonics:
                     df_s_ch = dpr.butter_filter(df_s_ch,
                                                 order=int(self.model_vars['filter_order_edit']),
                                                 btype='bandstop', lowcut=h - 2,
                                                 highcut=h + 2,
-                                                fs=self.model_vars["filter_sampling_frequency_edit"])
+                                                fs=float(self.model_vars["filter_sampling_frequency_edit"]))
 
-            df_s.loc[:, ch] = df_s_ch  # updating the dataframe for further processing
-
+            df_s.loc[:, ch] = df_s_ch
             self.progress_made.emit(1)
         return df_s
 

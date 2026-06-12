@@ -1,5 +1,5 @@
 from PyQt6.QtCore import QSize
-from PyQt6.QtGui import QIcon, QPixmap, QTransform, QIntValidator
+from PyQt6.QtGui import QIcon, QPixmap, QTransform, QIntValidator, QDoubleValidator
 from PyQt6.QtWidgets import QApplication, QFrame, QVBoxLayout, QTabWidget, QHBoxLayout, \
     QGridLayout, QCheckBox, QLabel, QPushButton, QLineEdit, QComboBox
 
@@ -251,15 +251,15 @@ class DatasetProcessingView(QFrame):
         # --------- VALIDATORS
         behead_edit.setValidator(QIntValidator())
         select_column_edit.setValidator(QIntValidator())
-        filter_first_cut_edit.setValidator(QIntValidator())
-        filter_second_cut_edit.setValidator(QIntValidator())
+        filter_first_cut_edit.setValidator(QDoubleValidator())
+        filter_second_cut_edit.setValidator(QDoubleValidator())
+        filter_sampling_frequency_edit.setValidator(QDoubleValidator())
+        harmonics_frequency_edit.setValidator(QDoubleValidator())
+        fft_edit.setValidator(QDoubleValidator())
         subsample_edit.setValidator(QIntValidator())
-        fft_edit.setValidator(QIntValidator())
         lin_interp_edit.setValidator(QIntValidator())
         filter_order_edit.setValidator(QIntValidator())
-        filter_sampling_frequency_edit.setValidator(QIntValidator())
         harmonics_nth_edit.setValidator(QIntValidator())
-        harmonics_frequency_edit.setValidator(QIntValidator())
         
         # --------- SAVE WIDGETS
         names = [(behead_ckbox, "behead_ckbox"), (behead_edit, "behead_edit"), (select_column_ckbox, "select_column_ckbox"),
