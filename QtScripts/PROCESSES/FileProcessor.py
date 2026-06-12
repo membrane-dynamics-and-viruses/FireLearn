@@ -284,7 +284,7 @@ class FileProcess(QThread):
         second cutoff frequencies) are dynamically selected based on the model's settings.
 
         """
-        
+
         for ch in [col for col in df_s.columns if self.model_vars["exception_column_edit"] not in col]:
             df_s_ch = df_s[ch]
             if self.model_vars['filter_type_cbbox'] == 'Highpass' and self.model_vars['filter_first_cut_edit']:

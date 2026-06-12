@@ -4,6 +4,7 @@ import pandas as pd
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QApplication, QFileDialog, QMessageBox
 from sklearn.model_selection import train_test_split
+from sklearn.model_selection import StratifiedShuffleSplit
 
 from QtScripts.MODEL.UtilitiesModel import UtilitiesModel
 from QtScripts.VIEW.UtilitiesView import UtilitiesView
@@ -36,7 +37,7 @@ class UtilitiesController:
             del df
             
         self.parent_controller.parent_controller.update_model_from_view(self.model, self.view)
-        
+
     def split_dataset(self):
         """
         Splits the full_dataset into training and testing sets based on a specified ratio and saves them to new files.
@@ -46,38 +47,33 @@ class UtilitiesController:
         None
         """
         self.parent_controller.parent_controller.update_model_from_view(self.model, self.view)
-        
-        ratio = float(self.model.widgets_values["split_ratio_slider"])/100
+
+        ratio = float(self.model.widgets_values["split_ratio_slider"]) / 100
         path = self.model.widgets_values["split_load_edit"]
-        
+        method = self.model.widgets_values["split_method_cbbox"]
+
         if path:
             df = pd.read_csv(path)
-            train_sets = []
-            test_sets = []
             target_col = self.model.widgets_values["split_target_column_cbbox"]
-            labels = list(set(list(df[target_col])))
-            
-            for label in labels:
-                dfl = df[df[target_col] == label]
-                dfl.reset_index(inplace=True, drop=True)
-                y = dfl[target_col]
-                # y = self.label_encoding(y)
-                X = dfl.loc[:, df.columns != target_col]
-                X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=ratio)
-                X_train[target_col] = y_train
-                X_test[target_col] = y_test
-                train_sets.append(X_train)
-                test_sets.append(X_test)
-            
-            train_df = pd.concat(train_sets, ignore_index=True)
-            train_df.reset_index(inplace=True, drop=True)
-            test_df = pd.concat(test_sets, ignore_index=True)
-            test_df.reset_index(inplace=True, drop=True)
-            
             base_path = path.split(".")
-            train_df.to_csv(base_path[0] + "_Xy_train." + base_path[1], index=False)
-            test_df.to_csv(base_path[0] + "_Xy_test." + base_path[1], index=False)
-            QMessageBox.information(self.view, "Splitting", "Splitting done")
+            X = df.loc[:, df.columns != target_col]
+            y = df[target_col]
+
+            if method == "StratifiedShuffleSplit":
+                sss = StratifiedShuffleSplit(n_splits=1, train_size=ratio, random_state=42)
+                train_idx, test_idx = next(sss.split(X, y))
+                train_df = df.iloc[train_idx].reset_index(drop=True)
+                test_df = df.iloc[test_idx].reset_index(drop=True)
+            else:
+                X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=ratio, random_state=42)
+                train_df = X_train.copy()
+                train_df[target_col] = y_train.values
+                test_df = X_test.copy()
+                test_df[target_col] = y_test.values
+
+            train_df.to_csv(f"{base_path[0]}_Xy_train.{base_path[1]}", index=False)
+            test_df.to_csv(f"{base_path[0]}_Xy_test.{base_path[1]}", index=False)
+            QMessageBox.information(self.view, "Splitting", f"Splitting done ({method})")
 
     
     def rename_targets(self):

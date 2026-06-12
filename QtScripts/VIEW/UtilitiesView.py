@@ -57,6 +57,9 @@ class UtilitiesView(QFrame):
         split_target_column_label = QLabel(parent=self, text="Target column:")
         split_target_column_cbbox = QComboBox(parent=self)
         split_target_column_cbbox.view().setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
+        split_method_label = QLabel(parent=self, text="Split method:")
+        split_method_cbbox = QComboBox(parent=self)
+        split_method_cbbox.addItems(["Standard Split", "StratifiedShuffleSplit"])
         split_btn = QPushButton(parent=self, text="Split")
         
         self.split_layout.addWidget(split_title, 0, 0)
@@ -67,6 +70,9 @@ class UtilitiesView(QFrame):
         self.split_layout.addWidget(split_target_column_label, 3, 0)
         self.split_layout.addWidget(split_target_column_cbbox, 3, 1)
         self.split_layout.addWidget(split_btn, 4, 1)
+        self.split_layout.addWidget(split_method_label, 4, 0)
+        self.split_layout.addWidget(split_method_cbbox, 4, 1)
+        self.split_layout.addWidget(split_btn, 5, 1)
         
         # --- CONNECT
         split_load_btn.clicked.connect(lambda: self.controller.load_dataset("split_load_edit", "split_target_column_cbbox"))
@@ -77,7 +83,7 @@ class UtilitiesView(QFrame):
         
         # --- STORE WIDGETS
         names = [(split_load_btn, "split_load_btn"), (split_load_edit, "split_load_edit"),
-                 (split_ratio_slider, "split_ratio_slider"), (split_target_column_cbbox, "split_target_column_cbbox")]
+                 (split_ratio_slider, "split_ratio_slider"), (split_target_column_cbbox, "split_target_column_cbbox"),(split_method_cbbox, "split_method_cbbox")]
         for widget, name in names:
             self.widgets[name] = widget
             
