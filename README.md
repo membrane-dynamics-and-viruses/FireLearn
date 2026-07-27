@@ -1,3 +1,4 @@
+![DOI FireLearn](FireLearn-zenodo.21624871.svg)
 # FireLearn GUI v1.0.9-beta: Walkthrough tutorial
 This document is aimed at the users of FireLearn GUI. 
 
