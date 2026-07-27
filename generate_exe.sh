@@ -8,8 +8,8 @@ source ./venv/Scripts/activate
 
 echo "running pyinstaller"
 pyinstaller --noconfirm --onedir firelearnGUI.py \
-  --add-data "C:/Users/wlutz/PycharmProjects/firelearn-interface/venv/Lib/site-packages/customtkinter;customtkinter" \
-  --add-data "C:/Users/wlutz/PycharmProjects/firelearn-interface/data;data"
+  --add-data "C:/Users/wlutz/PycharmProjects/FireLearn-GUI/venv/Lib/site-packages/customtkinter;customtkinter" \
+  --add-data "C:/Users/wlutz/PycharmProjects/FireLearn-GUI/data;data"
 
 echo "deactivating virtual environment"
 

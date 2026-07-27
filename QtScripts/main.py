@@ -11,6 +11,9 @@ from QtScripts.CONTROLLER.MainController import MainController
 from QtScripts.params import resource_path
 
 logger = logging.getLogger(__name__)
+import os
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
 class App(QApplication):
     def __init__(self):

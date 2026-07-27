@@ -3,7 +3,7 @@ import logging.config
 
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # 0 = all logs, 1 = info, 2 = warning, 3 = error
-
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 import sys
 
 import logging
@@ -37,7 +37,6 @@ logging.config.dictConfig(logging_dict)
 
 from matplotlib import pyplot as plt
 
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 logger = logging.getLogger("__main__")
 
 from QtScripts import main
@@ -55,4 +54,4 @@ if __name__ == '__main__':
 # >>> ./firelearnGUI
 
 # to generate the distribution for windows,
-# pyinstaller --noconfirm --onedir firelearn.py --add-data "C:\Users\wlutz\PycharmProjects\firelearn-interface\venv\Lib\site-packages\customtkinter;customtkinter." --add-data "C:\Users\wlutz\PycharmProjects\firelearn-interface\data;data" --icon="C:\Users\wlutz\PycharmProjects\firelearn-interface\data\firelearn_img\logo-firelearn-no-text.ico"
+# pyinstaller --noconfirm --onedir firelearn.py --add-data "C:\Users\wlutz\PycharmProjects\FireLearn-GUI\venv\Lib\site-packages\customtkinter;customtkinter." --add-data "C:\Users\wlutz\PycharmProjects\FireLearn-GUI\data;data" --icon="C:\Users\wlutz\PycharmProjects\FireLearn-GUI\data\firelearn_img\logo-firelearn-no-text.ico"

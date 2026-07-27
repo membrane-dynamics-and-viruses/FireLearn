@@ -623,7 +623,7 @@ the aspect.
 Note that multiple features are already planned, such as simple data plot, spike detection, more machine learning
 models, more customization on some analysis types... for future versions. 
 
-However, if you have any suggestion, you are free and welcomed to use the [issues section](https://github.com/WillyLutz/firelearn-interface/issues)
+However, if you have any suggestion, you are free and welcomed to use the [issues section](https://github.com/membrane-dynamics-and-viruses/FireLearn/issues)
 of the GitHub repository, and to use the in-place tags system to specify your post, such as below.
 
 | Tag              | Description                                |

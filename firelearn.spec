@@ -5,7 +5,7 @@ a = Analysis(
     ['firelearn.py'],
     pathex=[],
     binaries=[],
-    datas=[('C:\\Users\\wlutz\\PycharmProjects\\firelearn-interface\\venv\\Lib\\site-packages\\customtkinter', 'customtkinter.'), ('C:\\Users\\wlutz\\PycharmProjects\\firelearn-interface\\data', 'data')],
+    datas=[('C:\\Users\\wlutz\\PycharmProjects\\FireLearn-GUI\\venv\\Lib\\site-packages\\customtkinter', 'customtkinter.'), ('C:\\Users\\wlutz\\PycharmProjects\\FireLearn-GUI\\data', 'data')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -32,7 +32,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['C:\\Users\\wlutz\\PycharmProjects\\firelearn-interface\\data\\firelearn_img\\logo-firelearn-no-text.ico'],
+    icon=['C:\\Users\\wlutz\\PycharmProjects\\FireLearn-GUI\\data\\firelearn_img\\logo-firelearn-no-text.ico'],
 )
 coll = COLLECT(
     exe,

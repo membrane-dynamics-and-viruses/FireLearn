@@ -89,7 +89,7 @@ class MainView(QMainWindow):
         # About menu
         about_menu = menubar.addMenu("About")
         about_menu.addAction(self._action("Github...", lambda: self.open_web(
-            "https://github.com/WillyLutz/firelearn-interface")))
+            "https://github.com/WillyLutz/FireLearn-GUI")))
         about_menu.addAction(self._action("About Us", self.about_us))
         about_menu.addSeparator()
         
