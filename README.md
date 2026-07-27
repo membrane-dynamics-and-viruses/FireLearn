@@ -1,4 +1,4 @@
-![DOI FireLearn](FireLearn-zenodo.21624871.svg)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21624871.svg)](https://doi.org/10.5281/zenodo.21624871)
 # FireLearn GUI v1.0.9-beta: Walkthrough tutorial
 This document is aimed at the users of FireLearn GUI. 
 
