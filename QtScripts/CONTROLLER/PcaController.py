@@ -91,6 +91,7 @@ class PcaController:
         """
         df = self.model.dataset
         label_column = self.model.widgets_values["specific_target_col_cbbox"]
+        df[label_column] = df[label_column].astype(str)
         n_artists = self.view.widgets["specific_pca_tableplot"].table.rowCount()
         labels_to_fit, labels_to_apply = [], []
         for artist in range(n_artists):
@@ -98,11 +99,26 @@ class PcaController:
                 labels_to_fit.append(self.model.widgets_values[f"pcaplot_target_cbbox_{artist}"])
             if self.model.widgets_values[f"pcaplot_apply_ckbox_{artist}"]:
                 labels_to_apply.append(self.model.widgets_values[f"pcaplot_target_cbbox_{artist}"])
-        
-        
+
+        print(f"labels_to_fit: {labels_to_fit}")
+        print(f"labels_to_apply: {labels_to_apply}")
+        print(f"label_column: {label_column}")
+        print(f"unique values in column: {df[label_column].unique()}")
+
         df_fit = df[df[label_column].isin(labels_to_fit)]
+        print(f"df_fit shape: {df_fit.shape}")
         n_components = int(self.model.widgets_values["specific_components_cbbox"])
         pca, pcdf_fit, ratio = self.fit_pca(df_fit, n_components=n_components, label_column=label_column)
+        if not labels_to_fit:
+            QMessageBox.warning(self.view, "Warning",
+                                "No labels selected for fitting. Please check at least one 'Fit' checkbox.")
+            return None, None
+
+        if not labels_to_apply:
+            QMessageBox.warning(self.view, "Warning",
+                                "No labels selected for applying. Please check at least one 'Apply' checkbox.")
+            return None, None
+
         df_apply = df[df[label_column].isin(labels_to_apply)]
         pcdf_applied = self.apply_pca(pca, df_apply, label_column=label_column)
         return pcdf_applied, [round(x * 100, 2) for x in ratio]
@@ -205,15 +221,16 @@ class PcaController:
         
         ellipse.set_transform(transform + self.view.ax.transData)
         return self.view.ax.add_patch(ellipse)
-    
+
     def draw(self):
         self.parent_controller.parent_controller.update_model_from_view(self.model, self.view)
         if self.check_params():
-            
             n_components = int(self.model.widgets_values["specific_components_cbbox"])
             if n_components == 2:
                 self.view.ax.clear()
                 pcdf_applied, ratio = self._fit_and_apply_pca()
+                if pcdf_applied is None:
+                    return
                 self._plot_data(self.view.ax, pcdf_applied, ratio)
                 self.set_labels(self.view.ax, ratio)
                 self.set_ticks(self.view.ax)

@@ -30,6 +30,12 @@ def butter_filter(signal, order, btype, lowcut=None, highcut=None, cut=None, fs=
     np.ndarray
         The filtered signal.
     """
+    signal = np.asarray(pd.to_numeric(signal, errors='coerce'), dtype=np.float64)
+    if np.isnan(signal).any():
+        raise ValueError(
+            f"Signal contains NaN after numeric coercion — "
+            f"{np.isnan(signal).sum()} non-numeric value(s) found.")
+
     fs = int(fs)
     nyq = 0.5 * fs
     if cut:

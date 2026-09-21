@@ -269,7 +269,7 @@ class DatasetProcessingView(QFrame):
                  (fft_edit, "fft_edit"), (average_ckbox, "average_ckbox"), (lin_interp_ckbox, "lin_interp_ckbox"),
                  (lin_interp_edit, "lin_interp_edit"), (filter_ckbox, "filter_ckbox"), (filter_order_edit, "filter_order_edit"),
                  (filter_sampling_frequency_edit, "filter_sampling_frequency_edit"), (filter_first_cut_edit, "filter_first_cut_edit"),
-                 (filter_second_cut_edit, "filter_second_cut_edit"),(filter_type_cbbox, "filter_type_cbbox"),
+                 (filter_second_cut_edit, "filter_second_cut_edit"),(filter_second_cut_label, "filter_second_cut_label"),(filter_type_cbbox, "filter_type_cbbox"),
                  (harmonics_ckbox, "harmonics_ckbox"), (harmonics_type_cbbox, "harmonics_type_cbbox"),
                  (harmonics_nth_edit, "harmonics_nth_edit"), (harmonics_frequency_edit, "harmonics_frequency_edit"),
                  (exception_column_edit, "exception_column_edit"),]

@@ -37,6 +37,9 @@ class DatasetProcessingController:
         self.threads_alive = False
         self.cancelled = False
         self.results = {}
+
+        self.view.widgets["filter_type_cbbox"].currentTextChanged.connect(self.update_filter_fields)
+        self.update_filter_fields()
         
         self.processing_time_start = datetime.datetime.now()
 
@@ -57,6 +60,19 @@ class DatasetProcessingController:
         if directory:
             self.model.parent_directory = directory
             self.view.widgets["save_edit"].setText(directory)
+
+    def update_filter_fields(self):
+        selected = self.view.widgets["filter_type_cbbox"].currentText()
+
+        if selected in ["Highpass", "Lowpass"]:
+            self.view.widgets["filter_second_cut_label"].hide()
+            self.view.widgets["filter_second_cut_edit"].hide()
+        elif selected in ["Bandpass", "Bandstop"]:
+            self.view.widgets["filter_second_cut_label"].show()
+            self.view.widgets["filter_second_cut_edit"].show()
+        else:
+            self.view.widgets["filter_second_cut_label"].hide()
+            self.view.widgets["filter_second_cut_edit"].hide()
             
     
     def check_params_validity(self):
