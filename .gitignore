@@ -31,3 +31,5 @@ Thumbs.db
 # Logs
 *.log
 *.spec
+firelearn.spec
+generate_exe.sh
